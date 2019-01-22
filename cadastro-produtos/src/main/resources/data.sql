@@ -1,0 +1,3 @@
+insert into products (id, title, price, quantity, description) values(null, 'Minecraft', 129.90, 35, 'Minecraft é um jogo eletrônico tipo sandbox e independente de mundo aberto que permite a construção usando blocos dos quais o mundo é feito.');
+insert into products (id, title, price, quantity, description) values(null, 'Tetris', 89.90, 12, 'Tetris é um jogo electrônico muito popular, desenvolvido por Alexey Pajitnov, Dmitry Pavlovsky e Vadim Gerasimov, e lançado em Junho de 1984.');
+insert into products (id, title, price, quantity, description) values(null, 'Pac-Man', 69.90, 20, 'Pac-Man é um jogo eletrônico criado pelo Tōru Iwatani para a empresa Namco, e sendo distribuído para o mercado americano pela Midway Games.');
