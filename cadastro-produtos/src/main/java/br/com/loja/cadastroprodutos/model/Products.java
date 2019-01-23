@@ -4,14 +4,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 @ApiModel(value = "Produto")
+@Transactional(propagation = Propagation.REQUIRES_NEW)
 public class Products {
 
 	@Id
@@ -19,7 +23,7 @@ public class Products {
 	@ApiModelProperty(notes = "Código do produto")
 	private long id;
 
-	@NotBlank
+	@NotEmpty(message = "{title.not.empty}") 
 	@ApiModelProperty(notes = "Título")
 	private String title;
 
@@ -31,7 +35,7 @@ public class Products {
 	@ApiModelProperty(notes = "Quantidade")
 	private int quantity;
 
-	@NotBlank
+	@NotEmpty(message = "{description.not.empty}")
 	@ApiModelProperty(notes = "Descrição")
 	private String description;
 
