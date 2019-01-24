@@ -8,7 +8,6 @@ public class ErrorMessage {
 	private String message;
 	private String developerMessage;
 	private Date datetime;
-	
 
 	public ErrorMessage() {
 	}
