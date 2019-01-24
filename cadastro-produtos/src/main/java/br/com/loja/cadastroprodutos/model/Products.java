@@ -4,18 +4,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import org.hibernate.validator.constraints.Length;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 @ApiModel(value = "Produto")
-@Transactional(propagation = Propagation.REQUIRES_NEW)
 public class Products {
 
 	@Id
@@ -24,21 +24,26 @@ public class Products {
 	private long id;
 
 	@NotEmpty(message = "{title.not.empty}") 
+	@Length(min = 5, max = 200, message = "{title.length}")
 	@ApiModelProperty(notes = "Título")
 	private String title;
 
-	@NotNull
 	@ApiModelProperty(notes = "Preço")
 	private double price;
 
-	@NotNull
+	@Min(value = 1, message = "{quantity.min}")
 	@ApiModelProperty(notes = "Quantidade")
 	private int quantity;
 
 	@NotEmpty(message = "{description.not.empty}")
+	@Length(min = 20, max = 600, message = "{description.length}")
 	@ApiModelProperty(notes = "Descrição")
 	private String description;
-
+	
+	@AssertTrue(message = "{price.not.blank}")
+	@Transient
+	private boolean price_validation;
+	
 	public long getId() {
 		return id;
 	}
@@ -58,9 +63,14 @@ public class Products {
 	public double getPrice() {
 		return price;
 	}
-
+	
 	public void setPrice(double price) {
-		this.price = price;
+		if (price > 0) {
+			this.price = price;
+			this.price_validation = true;
+		} else {
+			this.price_validation = false;
+		}
 	}
 
 	public int getQuantity() {
