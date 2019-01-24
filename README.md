@@ -8,6 +8,6 @@ Instruções para rodar a aplicação:
 Após executar aplicação pelo Eclipse, acessar a url: ```http://localhost:8080/swagger-ui.html```
 
 Obs: Plugin adicionado no Eclipse: 
-* *Spring Tools 4 - for Spring Boot by Pivotal*
+* *Spring Tools 4 - for Spring Boot, by Pivotal*
 
-![Imagem da applicação](/api-rest-cadastro-produtos/img.png)
+![Imagem da applicação](/img.png)
