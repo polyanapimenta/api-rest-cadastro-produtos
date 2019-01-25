@@ -3,60 +3,33 @@ package br.com.loja.cadastroprodutos.exception;
 import java.util.Date;
 
 public class ErrorMessage {
-	private int status;
-	private String title;
-	private String message;
-	private String developerMessage;
-	private Date datetime;
-
-	public ErrorMessage() {
-	}
-
-	public ErrorMessage(int status, String title, String message, String developerMessage, Date datetime) {
+	private final int code;
+	private final String status;
+	private final String error;
+	private final Date datetime;
+	private final String developeMessage;
+	
+	public ErrorMessage(int code, String status, String error, Date datetime, String developeMessage) {
+		this.code = code;
 		this.status = status;
-		this.title = title;
-		this.message = message;
-		this.developerMessage = developerMessage;
+		this.error = error;
 		this.datetime = datetime;
+		this.developeMessage = developeMessage;
 	}
-
-	public int getStatus() {
+	
+	public int getCode() {
+		return code;
+	}
+	public String getStatus() {
 		return status;
 	}
-
-	public void setStatus(int status) {
-		this.status = status;
+	public String geterror() {
+		return error;
 	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public String getDeveloperMessage() {
-		return developerMessage;
-	}
-
-	public void setDeveloperMessage(String developerMessage) {
-		this.developerMessage = developerMessage;
-	}
-
 	public Date getDatetime() {
 		return datetime;
 	}
-
-	public void setDatetime(Date datetime) {
-		this.datetime = datetime;
+	public String getdevelopeMessage() {
+		return developeMessage;
 	}
 }
