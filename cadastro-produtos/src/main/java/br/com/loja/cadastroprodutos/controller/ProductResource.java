@@ -6,6 +6,7 @@ import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.loja.cadastroprodutos.model.Products;
-import br.com.loja.cadastroprodutos.repository.ProductRepository;
+import br.com.loja.cadastroprodutos.service.ProductsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -33,9 +34,9 @@ import javassist.NotFoundException;
 @Api(description = "Gerenciamento de produtos")
 @RequestMapping(value = "/products", produces = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE})
 public class ProductResource {
-
+		
 	@Autowired
-	private ProductRepository repository;
+	ProductsService service;
 
 	@PostMapping
 	@ResponseStatus(value = HttpStatus.CREATED)
@@ -43,15 +44,16 @@ public class ProductResource {
 	@ApiResponses(value = {@ApiResponse(code = 201, message = "Produto Criado com Sucesso!")})
 	@ApiImplicitParams({@ApiImplicitParam(name = "product", value = "Estrutura para criação de produto.", dataType = "Cadastrar Produto", required = true)})
 	
-	public Products addProduct(@Valid @RequestBody Products product) {
-		return repository.save(product);
+	public ResponseEntity<Products> createProduct(@Valid @RequestBody Products product) {
+		Products products = service.createProduct(product);
+		return new ResponseEntity<>(products, HttpStatus.CREATED);
 	}
 
 	@GetMapping
 	@ApiOperation(value = "Lista os porodutos cadastrados")
 
-	public ResponseEntity<Iterable<Products>> listAllProducts() {
-		return ResponseEntity.ok(repository.findAll());
+	public ResponseEntity<?> listAllProducts(Pageable page) {
+		return ResponseEntity.ok(service.listAllProducts(page));
 	}
 
 	@GetMapping("/{id}")
@@ -59,8 +61,8 @@ public class ProductResource {
 	@ApiResponses(value = {@ApiResponse(code = 404, message = "Produto Não Encontrado!")})
 	@ApiImplicitParams({@ApiImplicitParam(name = "id", value = "Identificador do produto", dataType = "Long", required = true)})
 
-	public ResponseEntity<Products> searchById(@PathVariable Long id) throws NotFoundException {
-		Products products = idExists(id);
+	public ResponseEntity<Products> searchProductById(@PathVariable Long id) throws NotFoundException {
+		Products products = service.searchProductById(id);
 		return new ResponseEntity<>(products, HttpStatus.OK);
 	}
 
@@ -73,9 +75,7 @@ public class ProductResource {
 	})
 
 	public ResponseEntity<Products> updateProduct(@PathVariable Long id, @RequestParam Integer quantity) throws NotFoundException {
-		Products products = idExists(id);
-		products.setQuantity(quantity);
-		products = repository.save(products);
+		Products products = service.updateProduct(id, quantity);
 		return new ResponseEntity<>(products, HttpStatus.OK);
 	}
 
@@ -88,16 +88,7 @@ public class ProductResource {
 			@ApiResponse(code = 404, message = "Produto Não Encontrado!")})
 	
 	public ResponseEntity<Void> deleteProduct(@PathVariable Long id) throws NotFoundException  {
-		idExists(id);
-		repository.deleteById(id);
+		service.deleteProduct(id);
 		return ResponseEntity.noContent().build();
-	}
-	
-	private Products idExists(Long id) throws NotFoundException {
-		Products products = repository.findById(id).orElse(null);
-		if(products == null) {
-			throw new NotFoundException("Não foi possível encontrar o produto com id: " + id);
-		}
-		return products;
 	}
 }

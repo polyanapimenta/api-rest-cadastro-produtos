@@ -10,12 +10,16 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 @ApiModel(value = "Produto")
+@Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = MethodArgumentNotValidException.class)
 public class Products {
 
 	@Id
@@ -23,7 +27,7 @@ public class Products {
 	@ApiModelProperty(notes = "Código do produto")
 	private long id;
 
-	@NotEmpty(message = "{title.not.empty}") 
+	@NotEmpty(message = "{title.not.empty}")
 	@Length(min = 5, max = 200, message = "{title.length}")
 	@ApiModelProperty(notes = "Título")
 	private String title;
