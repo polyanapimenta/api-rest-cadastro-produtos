@@ -4,7 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value = "Cadastrar Produto")
-public class CustomTypeForProducts {
+public class CustomTypeForPoducts {
+	
 	@ApiModelProperty(notes = "Título")
 	private String title;
 	@ApiModelProperty(notes = "Preço")

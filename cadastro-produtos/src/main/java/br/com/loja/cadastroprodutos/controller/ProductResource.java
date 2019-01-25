@@ -6,7 +6,8 @@ import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -51,9 +52,20 @@ public class ProductResource {
 
 	@GetMapping
 	@ApiOperation(value = "Lista os porodutos cadastrados")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "page", defaultValue = "0",  dataType = "int",   value = "número da página"),
+		@ApiImplicitParam(name = "limit",defaultValue = "5",  dataType = "int",   value = "quantidade de itens retornados"),
+		@ApiImplicitParam(name = "field",defaultValue = "id", dataType = "String",value = "campo para ordenação"),
+		@ApiImplicitParam(name = "sort", defaultValue = "asc",dataType = "String",value = "ordenação dos itens")
+	})
 
-	public ResponseEntity<?> listAllProducts(Pageable page) {
-		return ResponseEntity.ok(service.listAllProducts(page));
+	public ResponseEntity<Object> listAllProducts(
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "limit",defaultValue = "5") int limit,
+			@RequestParam(value = "field", defaultValue = "id") String field,
+			@RequestParam(value = "sort", defaultValue = "asc") String order){
+		
+		return ResponseEntity.ok(service.listAllProducts(PageRequest.of(page, limit, Direction.fromString(order), field)));
 	}
 
 	@GetMapping("/{id}")

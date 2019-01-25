@@ -25,7 +25,7 @@ public class SwaggerConfig {
 	public Docket productApi() {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.useDefaultResponseMessages(false)
-			    .additionalModels(resolver.resolve(CustomTypeForProducts.class))
+			    .additionalModels(resolver.resolve(CustomTypeForPoducts.class))
 				.select()
 				.apis(RequestHandlerSelectors.basePackage("br.com.loja.cadastroprodutos"))
 				.paths(regex("/products.*"))

@@ -9,7 +9,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import br.com.loja.cadastroprodutos.model.Products;
 import br.com.loja.cadastroprodutos.repository.ProductRepository;
-import br.com.loja.cadastroprodutos.service.ProductsService;
 import javassist.NotFoundException;
 
 @Service
@@ -23,6 +22,11 @@ public class ProductsServiceImplementation implements ProductsService{
 		return products;
 	}
 
+	@Override
+	public Object listAllProducts(Pageable page) {
+		return repository.findAll(page);
+	}
+	
 	@Override
 	public Products searchProductById(Long id) throws NotFoundException{
 		Products products = idExists(id);
@@ -50,10 +54,5 @@ public class ProductsServiceImplementation implements ProductsService{
 			throw new NotFoundException("Não foi possível encontrar o produto com id: " + id);
 		}
 		return products;
-	}
-
-	@Override
-	public Object listAllProducts(Pageable page) {
-		return repository.findAll(page);
 	}
 }

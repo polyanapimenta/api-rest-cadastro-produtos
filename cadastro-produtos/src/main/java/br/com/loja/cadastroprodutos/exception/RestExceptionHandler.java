@@ -86,4 +86,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 				new Date());
 		return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
+	@ExceptionHandler(value = { IllegalArgumentException.class })
+	public ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException ex) {
+		ErrorMessage errorMessage = new ErrorMessage(
+				HttpStatus.INTERNAL_SERVER_ERROR.value(),
+				"Argumento inválido para ordenação",
+				ex.getMessage(),
+				ex.getClass().getName(),
+				new Date());
+		return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 }
