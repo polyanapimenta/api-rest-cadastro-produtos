@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -17,6 +18,7 @@ import io.swagger.annotations.ApiModelProperty;
 public class Products {
 
 	@Id
+	@NotNull
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@ApiModelProperty(notes = "Código do produto")
 	private long id;
@@ -38,7 +40,22 @@ public class Products {
 	@Length(min = 20, max = 1000, message = "{description.length}")
 	@ApiModelProperty(notes = "Descrição")
 	private String description;
-	
+
+	public Products() {
+		super();
+	}
+
+	public Products(@NotEmpty(message = "{title.not.empty}") @Length(min = 5, max = 200, message = "{title.length}") String title,
+					@Min(value = 1, message = "{price.min}") double price,
+					@Min(value = 1, message = "{quantity.min}") int quantity,
+					@NotEmpty(message = "{description.not.empty}") @Length(min = 20, max = 1000, message = "{description.length}") String description) {
+		super();
+		this.title = title;
+		this.price = price;
+		this.quantity = quantity;
+		this.description = description;
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -58,7 +75,7 @@ public class Products {
 	public double getPrice() {
 		return price;
 	}
-	
+
 	public void setPrice(double price) {
 		this.price = price;
 	}

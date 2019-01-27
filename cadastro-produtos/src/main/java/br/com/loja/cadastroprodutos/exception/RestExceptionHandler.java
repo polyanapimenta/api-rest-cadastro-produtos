@@ -29,7 +29,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 													 new Date(),
 													 ex.getClass().getName());
 		return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
-	}
+	}		
 	
 	@Override
 	public ResponseEntity<Object> handleMethodArgumentNotValid(
@@ -77,20 +77,20 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 		return new ResponseEntity<>(errorMessage, headers, status);
 	}
 	
-	@ExceptionHandler(value = { TransactionSystemException.class })
-	public ResponseEntity<?> handleTransactionSystemException(TransactionSystemException ex) {
+	@ExceptionHandler(value = { Exception.class })
+	public ResponseEntity<?> handleException(Exception ex) {
 		ErrorMessage errorMessage = new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-													"Erro ao atualizar produto",
+													 "Internal Server Error",
 													 ex.getMessage(),
 													 new Date(),
 													 ex.getClass().getName());
 		return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@ExceptionHandler(value = { IllegalArgumentException.class })
-	public ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException ex) {
+	@ExceptionHandler(value = { TransactionSystemException.class })
+	public ResponseEntity<?> handleTransactionSystemException(TransactionSystemException ex) {
 		ErrorMessage errorMessage = new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-													"Argumento inválido para ordenação",
+													"Erro ao atualizar produto",
 													 ex.getMessage(),
 													 new Date(),
 													 ex.getClass().getName());

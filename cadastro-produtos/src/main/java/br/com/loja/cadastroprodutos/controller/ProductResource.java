@@ -45,7 +45,7 @@ public class ProductResource {
 	@ApiResponses(value = {@ApiResponse(code = 201, message = "Produto Criado com Sucesso!")})
 	@ApiImplicitParams({@ApiImplicitParam(name = "product", value = "Estrutura para criação de produto.", dataType = "Cadastrar Produto", required = true)})
 	
-	public ResponseEntity<Products> createProduct(@Valid @RequestBody Products product) {
+	public ResponseEntity<Products> postProduct(@Valid @RequestBody Products product) {
 		Products products = service.createProduct(product);
 		return new ResponseEntity<>(products, HttpStatus.CREATED);
 	}
@@ -59,7 +59,7 @@ public class ProductResource {
 		@ApiImplicitParam(name = "sort", defaultValue = "asc",dataType = "String",value = "ordenação dos itens")
 	})
 
-	public ResponseEntity<Object> listAllProducts(
+	public ResponseEntity<Object> getAllProducts(
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "limit",defaultValue = "5") int limit,
 			@RequestParam(value = "field", defaultValue = "id") String field,
@@ -73,7 +73,7 @@ public class ProductResource {
 	@ApiResponses(value = {@ApiResponse(code = 404, message = "Produto Não Encontrado!")})
 	@ApiImplicitParams({@ApiImplicitParam(name = "id", value = "Identificador do produto", dataType = "Long", required = true)})
 
-	public ResponseEntity<Products> searchProductById(@PathVariable Long id) throws NotFoundException {
+	public ResponseEntity<Products> getProductById(@PathVariable Long id) throws NotFoundException {
 		Products products = service.searchProductById(id);
 		return new ResponseEntity<>(products, HttpStatus.OK);
 	}
@@ -86,7 +86,7 @@ public class ProductResource {
 		@ApiImplicitParam(name = "quantity", value = "Quantidade disponível em estoque", dataType = "int", required = true)
 	})
 
-	public ResponseEntity<Products> updateProduct(@PathVariable Long id, @RequestParam Integer quantity) throws NotFoundException {
+	public ResponseEntity<Products> putProduct(@PathVariable Long id, @RequestParam Integer quantity) throws NotFoundException {
 		Products products = service.updateProduct(id, quantity);
 		return new ResponseEntity<>(products, HttpStatus.OK);
 	}
