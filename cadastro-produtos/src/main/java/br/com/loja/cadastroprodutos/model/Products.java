@@ -32,7 +32,7 @@ public class Products {
 	@ApiModelProperty(notes = "Preço")
 	private double price;
 
-	@Min(value = 1, message = "{quantity.min}")
+	@Min(value = 0, message = "{quantity.min}")
 	@ApiModelProperty(notes = "Quantidade")
 	private int quantity;
 

@@ -96,9 +96,9 @@ public class ProductsRepositoryTest {
 	
 	@Test
 	public void createProductWithZeroQuantity() {
-		Products zeroQuantity = new Products(title, price, 0, description);
+		Products zeroQuantity = new Products(title, price, -1, description);
 		thrown.expect(ConstraintViolationException.class);
-		thrown.expectMessage("Verifique se a quantidade é maior que zero.");
+		thrown.expectMessage("Verifique se a quantidade é maior ou igual a zero.");
 		this.repository.save(zeroQuantity);
 	}
 	
